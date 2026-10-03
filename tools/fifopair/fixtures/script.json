@@ -1,0 +1,31 @@
+{
+  "timeout": 12,
+  "queueCap": 6,
+  "warmup": true,
+  "events": [
+    {"t": 0, "op": "queue", "via": "func", "n": 2, "status": 200, "headers": {"X-Src": "fn"}, "echo": "E:"},
+    {"t": 1, "op": "req", "path": "/alpha"},
+    {"t": 1, "op": "req", "path": "/beta"},
+    {"t": 2, "op": "queue", "via": "map", "n": 1, "map": {"/ok": {"status": 200, "body": "MOK"}}},
+    {"t": 3, "op": "req", "path": "/nope"},
+    {"t": 4, "op": "queue", "via": "batch", "n": 1, "status": 204, "body": ""},
+    {"t": 5, "op": "req", "path": "/b1"},
+    {"t": 6, "op": "req", "path": "/slow"},
+    {"t": 8, "op": "queue", "via": "one", "status": 0, "body": "Z"},
+    {"t": 8, "op": "queue", "via": "one", "status": 201, "body": "S"},
+    {"t": 9, "op": "flush"},
+    {"t": 10, "op": "queue", "via": "one", "status": 201, "body": "S"},
+    {"t": 10, "op": "req", "path": "/x"},
+    {"t": 11, "op": "req", "path": "/w1"},
+    {"t": 12, "op": "req", "path": "/w2"},
+    {"t": 13, "op": "req", "path": "/w3"},
+    {"t": 14, "op": "req", "path": "/w4"},
+    {"t": 15, "op": "req", "path": "/w5"},
+    {"t": 16, "op": "req", "path": "/w6"},
+    {"t": 17, "op": "req", "path": "/w7"},
+    {"t": 18, "op": "req", "path": "/w8"},
+    {"t": 20, "op": "queue", "via": "batch", "n": 3, "status": 500, "body": "boom"},
+    {"t": 21, "op": "queue", "via": "one", "status": 202, "body": "L"},
+    {"t": 27, "op": "queue", "via": "one", "status": 200, "body": "orphan"}
+  ]
+}
